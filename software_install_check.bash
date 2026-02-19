@@ -3,12 +3,9 @@
 ####
 ###  Script para verificar el software necesario
 ##   Este script analizará si estan instaladas las paqueterias necesarias
-#    Usa conda para crear los ambientes de trabajo 
+#    Usa conda para crear los ambientes de trabajo
 #
 #
-##
-###
-#####
 
 
 echo "Verificando los programas y los ambientes, favor de esperar"
@@ -41,7 +38,7 @@ check_conda() {
     fi
 }
 
-### declarar función para instalar anaconda
+software_install_check.bashsoftware_install_check.bashgbnnnnnnnnnnnnnnnnnnnnnb### declarar función para instalar anaconda
 
 install_anaconda() {
     read -r -p "¿Desea instalar el anaconda? (S/N): " RESPUESTA
@@ -87,7 +84,7 @@ install_anaconda() {
 conda_envs_creation_tool() {
     local ENV_NAME="$1"
 
-    if [[ "$ENV_NAME" == "biodiversity_and_evolution_p1" ]]; then
+    if [[ "$ENV_NAME" == "bdye_assembly_tools" ]]; then
         
       
         if conda env list | grep -q -w "$ENV_NAME"; then
@@ -127,7 +124,7 @@ conda_envs_creation_tool() {
             esac
         fi
 
-    elif [[ "$ENV_NAME" == "biodiversity_and_evolution_qiime2" ]]; then
+    elif [[ "$ENV_NAME" == "bdye_qiime" ]]; then
         
         if conda env list | grep -q -w "$ENV_NAME"; then
             echo "El ambiente '$ENV_NAME' existe. Activando..."
@@ -156,7 +153,43 @@ conda_envs_creation_tool() {
                 ;;      
             esac
         fi
+    elif [[ "$ENV_NAME" == "bdye_report" ]]; then
+        
+      
+        if conda env list | grep -q -w "$ENV_NAME"; then
+            echo "El ambiente '$ENV_NAME' existe. Activando..."
+            source $HOME/miniconda3/etc/profile.d/conda.sh
+            conda activate "$ENV_NAME"
+            check_comando pdflatex
+            
+
+        else
+            echo "El entorno '$ENV_NAME' no existe."
+            read -r -p "¿Desea instalar el ambiente en conda? (S/N): " RESPUESTA
+            case "${RESPUESTA,,}" in
+                s*|y*)  
+                    echo "Instalando ambiente $ENV_NAME..."
+                    conda create --yes -n "$ENV_NAME" anaconda::texlive-core
+                    echo "Ambiente creado. Activando..."
+                    source $HOME/miniconda3/etc/profile.d/conda.sh
+                    conda activate "$ENV_NAME"
+                    check_comando pdflatex 
+
+                ;;      
+                *)
+                    echo "No se ha iniciado la instalación, saliendo del programa."
+                    exit 1
+                ;;      
+            esac
+        fi
 
 
     fi
 }
+
+check_dependency wget
+check_conda
+conda_envs_tool bdye_assembly_tools
+conda_envs_tool bdye_qiime
+conda_envs_tool bdye_report
+
