@@ -1,6 +1,6 @@
 #!/bin/bash
 
-eval "$(conda shell.bash hook)"
+eval "$(conda software_install_check.bash hook)"
 
 ####
 ###  Script para verificar el software necesario
