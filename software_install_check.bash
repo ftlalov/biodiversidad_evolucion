@@ -148,7 +148,7 @@ conda_envs_creation_tool() {
                 s*|y*)  
                     echo "Instalando ambiente $ENV_NAME..."
                     wget -O qiime2.yml  https://raw.githubusercontent.com/qiime2/distributions/refs/heads/dev/2025.7/amplicon/released/qiime2-amplicon-ubuntu-latest-conda.yml
-                    conda env create --yes -n $ENV_NAME prueba --file qiime2.yml
+                    conda env create  -n $ENV_NAME prueba --file qiime2.yml
                     echo "Ambiente creado. Activando..."
                     source $HOME/miniconda3/etc/profile.d/conda.sh
                     source /opt/mambaforge/etc/profile.d/conda.sh
