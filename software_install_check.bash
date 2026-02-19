@@ -85,7 +85,9 @@ install_anaconda() {
 ##    
 
 conda_envs_creation_tool() {
-    local ENV_NAME="$1"
+	local ENV_NAME="$1"
+	conda init bash	
+	source ~/.bashrc
 
     if [[ "$ENV_NAME" == "bdye_assembly_tools" ]]; then
         
