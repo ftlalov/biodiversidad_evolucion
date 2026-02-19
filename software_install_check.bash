@@ -86,7 +86,7 @@ install_anaconda() {
 
 conda_envs_creation_tool() {
 	local ENV_NAME="$1"
-	conda init bash	
+
 	source ~/.bashrc
 
     if [[ "$ENV_NAME" == "bdye_assembly_tools" ]]; then
@@ -95,13 +95,15 @@ conda_envs_creation_tool() {
         if conda env list | grep -q -w "$ENV_NAME"; then
             echo "El ambiente '$ENV_NAME' existe. Activando..."
             source $HOME/miniconda3/etc/profile.d/conda.sh
+            source /opt/mambaforge/etc/profile.d/conda.sh
+		
             conda activate "$ENV_NAME"
-            check_comando fastqc
-            check_comando trim_galore
-            check_comando metaspades
-            check_comando megahit
-            check_comando kaiju
-            check_comando kraken
+            check_dependency fastqc
+            check_dependency trim_galore
+            check_dependency metaspades
+            check_dependency megahit
+            check_dependency kaiju
+            check_dependency kraken
             
 
         else
@@ -114,12 +116,12 @@ conda_envs_creation_tool() {
                     echo "Ambiente creado. Activando..."
                     source $HOME/miniconda3/etc/profile.d/conda.sh
                     conda activate "$ENV_NAME"
-                    check_comando fastqc
-                    check_comando trim_galore
-                    check_comando metaspades
-                    check_comando megahit
-                    check_comando kaiju
-                    check_comando kraken2
+                    check_dependency fastqc
+                    check_dependency trim_galore
+                    check_dependency metaspades
+                    check_dependency megahit
+                    check_dependency kaiju
+                    check_dependency kraken2
 
                 ;;      
                 *)
@@ -134,9 +136,11 @@ conda_envs_creation_tool() {
         if conda env list | grep -q -w "$ENV_NAME"; then
             echo "El ambiente '$ENV_NAME' existe. Activando..."
             source $HOME/miniconda3/etc/profile.d/conda.sh
+	    source /opt/mambaforge/etc/profile.d/conda.sh
+
             conda activate "$ENV_NAME"
-                    check_comando qiime
-                    check_comando R
+                    check_dependency qiime
+                    check_dependency R
         else
             echo "El entorno '$ENV_NAME' no existe. Se requiere instalar QIIME2."
             read -r -p "¿Desea instalar el ambiente en conda? (S/N): " RESPUESTA
@@ -147,9 +151,10 @@ conda_envs_creation_tool() {
                     conda env create --yes -n $ENV_NAME prueba --file qiime2.yml
                     echo "Ambiente creado. Activando..."
                     source $HOME/miniconda3/etc/profile.d/conda.sh
-                    conda activate "$ENV_NAME"
-                    check_comando qiime
-                    check_comando R
+                    source /opt/mambaforge/etc/profile.d/conda.sh
+		    conda activate "$ENV_NAME"
+                    check_dependency qiime
+                    check_dependency R
                     rm  qiime2.yml
                 ;;      
                 *)
@@ -164,8 +169,9 @@ conda_envs_creation_tool() {
         if conda env list | grep -q -w "$ENV_NAME"; then
             echo "El ambiente '$ENV_NAME' existe. Activando..."
             source $HOME/miniconda3/etc/profile.d/conda.sh
-            conda activate "$ENV_NAME"
-            check_comando pdflatex
+	    source /opt/mambaforge/etc/profile.d/conda.sh        
+	    conda activate "$ENV_NAME"
+            check_dependency pdflatex
             
 
         else
@@ -177,8 +183,9 @@ conda_envs_creation_tool() {
                     conda create --yes -n "$ENV_NAME" anaconda::texlive-core
                     echo "Ambiente creado. Activando..."
                     source $HOME/miniconda3/etc/profile.d/conda.sh
+		    source /opt/mambaforge/etc/profile.d/conda.sh                    
                     conda activate "$ENV_NAME"
-                    check_comando pdflatex 
+                    check_dependency pdflatex 
 
                 ;;      
                 *)
