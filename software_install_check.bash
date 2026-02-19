@@ -1,5 +1,7 @@
 #!/bin/bash
 
+eval "$(conda shell.bash hook)"
+
 ####
 ###  Script para verificar el software necesario
 ##   Este script analizará si estan instaladas las paqueterias necesarias
