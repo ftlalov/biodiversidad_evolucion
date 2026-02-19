@@ -11,7 +11,7 @@
 echo "Verificando los programas y los ambientes, favor de esperar"
 
 ## Por si existe una instalación en home sin añadir al path 
-for i in 1 2 3; do echo PATH="$HOME/miniconda"$i"/bin:$PATH" ;done
+for i in 1 2 3; do PATH="$HOME/miniconda"$i"/bin:$PATH" ;done
 
 ## declarar funcion para: Para ver si existe un comando
 
@@ -38,7 +38,8 @@ check_conda() {
     fi
 }
 
-software_install_check.bashsoftware_install_check.bashgbnnnnnnnnnnnnnnnnnnnnnb### declarar función para instalar anaconda
+
+### declarar función para instalar anaconda
 
 install_anaconda() {
     read -r -p "¿Desea instalar el anaconda? (S/N): " RESPUESTA
@@ -62,7 +63,7 @@ install_anaconda() {
             
             if [ -f "$INSTALL_PATH/bin/conda" ]; then
                  "$INSTALL_PATH/bin/conda" init bash
-                echo "¡Instalación y configuración completada! 🎉"
+                echo "¡Instalación y configuración completada!"
                 echo "Es necesario Cerrar el programa y volver a iniciar"
                 exit 1
             else
@@ -189,7 +190,7 @@ conda_envs_creation_tool() {
 
 check_dependency wget
 check_conda
-conda_envs_tool bdye_assembly_tools
-conda_envs_tool bdye_qiime
-conda_envs_tool bdye_report
+conda_envs_creation_tool bdye_assembly_tools
+conda_envs_creation_tool bdye_qiime
+conda_envs_creation_tool bdye_report
 
