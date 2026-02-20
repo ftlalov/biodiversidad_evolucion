@@ -32,7 +32,7 @@ echo "$archivo_muestras"
 conda activate bdye_assembly_tools 
 
 
-
+SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
 
 seleccionar_asignador_metagenomico() {
     echo "--- Paso 1: Selección del asignador ---"
@@ -42,9 +42,8 @@ seleccionar_asignador_metagenomico() {
         case $opt in
             "Kaiju")
                 
-                echo "Selecciónando Kaiju."
-                a=1
-                break
+                echo "Función en desarrollo."
+                
                 ;;
             "Kraken")
                 a=2
@@ -77,7 +76,7 @@ rev_base_datos(){
                     echo "Extrayendo base de datos."
                     tar -xzvf database/kaiju/database.tgz -C database/kaiju/                    
                     rm -f database/kaiju/database.tgz
-                    
+
                     ;;    
                     *)
                         echo "Es necesario contar con la base de datos, saliendo del programa"
@@ -309,7 +308,7 @@ asignar_tax_kraken(){
                 
             done 
             for i in "S" "F" "C" "K" ;do
-                Rscript kraken_report.R $i "all_samples_$i"
+                Rscript $SCRIPT_DIR/kraken_report.R  $i "all_samples_$i"
             done
 
         fi    
