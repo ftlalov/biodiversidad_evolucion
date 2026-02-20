@@ -12,6 +12,9 @@ config_seq=$1
 archivo_muestras="$2"
 archivo_muestras2=$archivo_muestras
 declare -A arreglo_fastq
+### config para obtener el directorio de los scripts
+SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
+
 
 ## Primer filtro para acceder al script. Corroborar datos de entrada.
 if [ -z "$1" ]; then
@@ -45,9 +48,11 @@ seleccionar_tipo_metagenoma() {
     select opt in "${options[@]}"; do
         case $opt in
             "Amplicon (16S/18S)")
-                METAGENOMA_TIPO="amplicon"
-                echo "Seleccionado: Metagenoma de Amplicon (16S/ITS)."
-                a=1
+                #METAGENOMA_TIPO="amplicon"
+                #echo "Seleccionado: Metagenoma de Amplicon (16S/ITS)."
+                
+                echo "Modulo no implementado, volver a seleccionar"
+                
                 break
                 ;;
             "Shotgun (Whole Genome Shootgun)")
@@ -67,6 +72,7 @@ seleccionar_tipo_metagenoma() {
 
 
 ##### funcion de verificar lecturas #### proablemente se mueva a otro script
+
 verificar_datos() {
     echo "$config_seq"
     if [[ $config_seq == "SE" ]];then
@@ -136,9 +142,10 @@ verificar_datos() {
                 if [[ "$R1_size_b" -gt 0  && "$R2_size_b" -gt 0  ]]; then  ## revisa si es diferente de 0
                     R1size_human=$(numfmt --to=iec --suffix=B --format='%.2f' $R1_size_b 2>/dev/null || echo "$R1_size_b Bytes")
                     R2size_human=$(numfmt --to=iec --suffix=B --format='%.2f' $R2_size_b 2>/dev/null || echo "$R2_size_b Bytes")
-                    echo "La condicion $condicion tuvo dos lecturasm, con los siguientes tamaños"
+                    echo "La condicion $condicion tuvo dos lecturas, con los siguientes tamaños"
                     echo "Lectura R1 $R1size_human"
                     echo "lectura R2 $R2size_human" 
+                    echo "$condicion","$R1_size_b","$R2_size_b" >>t amaños_muestras.txt
 
                     echo "Continuando al menu de selección de metodología"
                 else 
@@ -169,13 +176,13 @@ if [[ $a -eq 1 ]]; then
         echo "Iniciando para metagenoma 16S"
 #        bash enviroment_verification.bash
         echo "se Ha completado la verificación"
-        bash reads_preprocess.bash "$config_seq" "$archivo_muestras2"
-        bash 16s.bash "$config_seq"
+        bash "$SCRIPT_DIR/reads_preprocess.bash" "$config_seq" "$archivo_muestras2"
+        bash "$SCRIPT_DIR/16s.bash" "$config_seq"
     elif [[ $a -eq 2 ]]; then 
         echo "Iniciando para metagenoma Shotgun"
 #        bash enviroment_verification.bash
         echo "se Ha completado la verificación"
-        bash reads_preprocess.bash "$config_seq" "$archivo_muestras2"
-        bash shotgun.bash "$config_seq"
+        bash "$SCRIPT_DIR/reads_preprocess.bash" "$config_seq" "$archivo_muestras2"
+        bash "$SCRIPT_DIR/shotgun.bash" "$config_seq"
 
     fi

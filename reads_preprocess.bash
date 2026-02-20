@@ -158,6 +158,11 @@ echo "$archivo_muestras"
         done 
         fastqc temp/all_merged.fq.gz -o temp/
         fastqc temp/all_trim.fq.gz -o temp/
-
-
-    fi   
+	cd/temp
+    unzip -o -j "all_merged_fastqc.zip" "*/Images/per_base_quality.png" -d "./"
+	mv per_base_quality.png befor_quality.png
+	unzip -o -j "all_trim_fastqc.zip" "*/Images/per_base_quality.png" -d "./"
+	mv per_base_quality.png after_quality.png 
+	python3 -c "from PIL import Image; import numpy as np; i1=Image.open('befor_quality.png'); i2=Image.open('after_quality.png'); Image.fromarray(np.hstack((np.array(i1), np.array(i2)))).save('concatenada.png')"    
+    cd ../
+fi   

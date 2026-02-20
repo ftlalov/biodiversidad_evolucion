@@ -71,10 +71,13 @@ rev_base_datos(){
             read -r -p "¿Desea descargar la base de datos? (S/N): " RESPUESTA
                 case "${RESPUESTA,,}" in
                 s*|y*) 
-                    mkdir -p database database/kaiju  
-                    wget -O database/kaiju/database/database.tgz https://kaiju-idx.s3.eu-central-1.amazonaws.com/2024/kaiju_db_fungi_2024-08-16.tgz
-                    tar -xzvf database/kaiju/database.tgz -C database/kaiju/.
-                    rm -rf database/kaiju/database.tgz
+                    
+                    mkdir -p database/kaiju
+                    wget https://kaiju-idx.s3.eu-central-1.amazonaws.com/2024/kaiju_db_fungi_2024-08-16.tgz -O database/kaiju/database.tgz
+                    echo "Extrayendo base de datos."
+                    tar -xzvf database/kaiju/database.tgz -C database/kaiju/                    
+                    rm -f database/kaiju/database.tgz
+                    
                     ;;    
                     *)
                         echo "Es necesario contar con la base de datos, saliendo del programa"
@@ -93,9 +96,9 @@ rev_base_datos(){
                 case "${RESPUESTA,,}" in
                 s*|y*) 
                     mkdir -p database/database/kraken2 
-                    wget -O database/kraken2/database/database.tgz https://genome-idx.s3.amazonaws.com/kraken/k2_standard_08_GB_20250714.tar.gz
-                    tar -xvzf database/kraken2/database.tar.gz -C database/kraken2/.
-                    rm -rf database/kraken2/database.tar.gz
+                    wget https://genome-idx.s3.amazonaws.com/kraken/k2_standard_08_GB_20250714.tar.gz -O database/kraken2/database.tar.gz
+                    tar -xvzf database/kraken2/database.tar.gz -C database/kraken2/
+                    rm database/kraken2/database.tar.gz
 
                     ;;    
                     *)
@@ -107,6 +110,7 @@ rev_base_datos(){
     fi
 
 }
+
 seleccion_ensamblador(){
     echo "--- Paso 2: Selección del ensamblador metagenómico ---"
     PS3="Selecciona el software para el ensamblado(1, 2, 3): "
