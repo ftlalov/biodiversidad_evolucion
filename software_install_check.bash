@@ -172,7 +172,7 @@ conda_envs_creation_tool() {
 	    source /opt/mambaforge/etc/profile.d/conda.sh        
 	    conda activate "$ENV_NAME"
             check_dependency pdflatex
-            
+            check_dependency tectonic
 
         else
             echo "El entorno '$ENV_NAME' no existe."
@@ -180,12 +180,13 @@ conda_envs_creation_tool() {
             case "${RESPUESTA,,}" in
                 s*|y*)  
                     echo "Instalando ambiente $ENV_NAME..."
-                    conda create --yes -n "$ENV_NAME" anaconda::texlive-core
+                    conda create --yes -n "$ENV_NAME" anaconda::texlive-core conda-forge::tectonic
                     echo "Ambiente creado. Activando..."
                     source $HOME/miniconda3/etc/profile.d/conda.sh
 		    source /opt/mambaforge/etc/profile.d/conda.sh                    
                     conda activate "$ENV_NAME"
-                    check_dependency pdflatex 
+                    check_dependency pdflatex
+		    check_dependency tectonic 
 
                 ;;      
                 *)
